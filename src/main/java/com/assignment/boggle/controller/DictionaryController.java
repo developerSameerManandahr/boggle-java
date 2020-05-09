@@ -14,7 +14,7 @@ public class DictionaryController {
         this.wordService = wordService;
     }
 
-    @CrossOrigin(origins = "http://localhost:4200")
+    @CrossOrigin
     @GetMapping("/")
     public ValidationScore checkWord(@RequestParam String word){
         return wordService.validateAndCalculateScore(word);

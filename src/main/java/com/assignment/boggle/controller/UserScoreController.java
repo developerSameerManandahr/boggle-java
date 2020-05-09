@@ -5,6 +5,7 @@ import com.assignment.boggle.model.UserScoreDetail;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,11 +27,13 @@ public class UserScoreController {
     }
 
     @GetMapping
+    @CrossOrigin
     public ResponseEntity<List<UserScoreDetail>> getUserScoreDetails() {
         final List<UserScoreDetail> userScoreDetailList = cache.getAll()
                 .entrySet()
                 .stream()
                 .map(stringIntegerEntry -> new UserScoreDetail(stringIntegerEntry.getKey(), stringIntegerEntry.getValue()))
+                .sorted(Comparator.comparing(UserScoreDetail::getScore).reversed())
                 .collect(Collectors.toList());
         return ResponseEntity.ok(userScoreDetailList);
     }
